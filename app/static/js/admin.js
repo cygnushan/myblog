@@ -155,6 +155,7 @@ function get_blog_info(url) {
         $('#title').val(data.title);
         $('#signature').val(data.signature);
         $('#navbar').val(data.navbar);
+        $('#editor').val(data.editor);
         $('#editBlogInfoFormModal').modal();
     });
 }

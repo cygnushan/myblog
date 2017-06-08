@@ -60,7 +60,9 @@ def deploy(deploy_type):
         # step_4:insert default article sources
         Source.insert_sources()
         # step_5:insert default articleType
+        Menu.insert_menus()
         ArticleType.insert_system_articleType()
+        ArticleType.insert_articleTypes()
         # step_6:insert system plugin
         Plugin.insert_system_plugin()
         # step_7:insert blog view

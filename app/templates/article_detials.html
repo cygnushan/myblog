@@ -11,7 +11,11 @@
     <hr>
     <div>
         <p>
-            {{ article.content | safe }}
+            {% if article.md_html %}
+                {{ article.md_html | safe }}
+            {% else %}
+                {{ article.content | safe }}
+            {% endif %}
         </p>
     </div>
     <div class="article-add-info">

@@ -41,11 +41,13 @@ def submitArticles():
         type_id = form.types.data
         summary = form.summary.data
 
+        md_html = request.form.get("content-editor-html-code", type=str, default="")
+
         source = Source.query.get(source_id)
         articleType = ArticleType.query.get(type_id)
 
         if source and articleType:
-            article = Article(title=title, content=content, summary=summary,
+            article = Article(title=title, content=content, md_html=md_html, summary=summary,
                               source=source, articleType=articleType)
             db.session.add(article)
             db.session.commit()
@@ -79,6 +81,7 @@ def editArticles(id):
         article.content = form.content.data
         article.summary = form.summary.data
         article.update_time = datetime.utcnow()
+        article.md_html = request.form.get("content-editor-html-code", type=str, default="")
         db.session.add(article)
         db.session.commit()
         flash(u'博文更新成功！', 'success')
@@ -639,6 +642,9 @@ def custom_blog_info():
     navbars = [(1, u'魅力黑'), (2, u'优雅白')]
     form.navbar.choices = navbars
 
+    editors = [(1, u'tinymce'), (2, u'markdown')]
+    form.editor.choices = editors
+
     if form.validate_on_submit():
         blog = BlogInfo.query.first()
         blog.title = form.title.data
@@ -647,6 +653,10 @@ def custom_blog_info():
             blog.navbar = 'inverse'
         if form.navbar.data == 2:
             blog.navbar = 'default'
+        if form.editor.data == 1:
+            blog.editor = 'tinymce'
+        if form.editor.data == 2:
+            blog.editor = 'markdown'
         db.session.add(blog)
         db.session.commit()
 
@@ -665,10 +675,15 @@ def get_blog_info():
             navbar = 1
         if blog.navbar == 'default':
             navbar = 2
+        if blog.editor == 'tinymce':
+            editor = 1
+        if blog.editor == 'markdown':
+            editor = 2
         return jsonify({
             'title': blog.title,
             'signature':blog.signature,
             'navbar': navbar,
+            'editor': editor,
         })
 
 
@@ -864,9 +879,3 @@ def edit_user_info():
             flash(u'修改用户信息失败！密码不正确！', 'danger')
             return redirect(url_for('admin.account'))
 
-
-@admin.route('/help')
-@login_required
-def help():
-
-    return render_template('admin/help_page.html')

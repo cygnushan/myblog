@@ -302,6 +302,7 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), unique=True)
     content = db.Column(db.Text)
+    md_html = db.Column(db.Text)
     summary = db.Column(db.Text)
     create_time = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     update_time = db.Column(db.DateTime, index=True, default=datetime.utcnow)
@@ -349,12 +350,13 @@ class BlogInfo(db.Model):
     title = db.Column(db.String(64))
     signature = db.Column(db.Text)
     navbar = db.Column(db.String(64))
+    editor = db.Column(db.String(64))
 
     @staticmethod
     def insert_blog_info():
         blog_mini_info = BlogInfo(title=u'cygnushan的个人博客',
                                   signature=u'I can raise me up more than I can be!',
-                                  navbar='inverse')
+                                  navbar='inverse', editor='tinymce')
         db.session.add(blog_mini_info)
         db.session.commit()
 

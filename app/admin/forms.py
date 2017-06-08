@@ -15,6 +15,7 @@ class SubmitArticlesForm(CommonForm):
     title = StringField(u'标题', validators=[DataRequired(), Length(1, 64)])
     content = TextAreaField(u'博文内容', validators=[DataRequired()])
     summary = TextAreaField(u'博文摘要', validators=[DataRequired()])
+    htmlcode = TextAreaField(u'博文源码')
 
 
 class ManageArticlesForm(CommonForm):
@@ -65,6 +66,7 @@ class CustomBlogInfoForm(Form):
     title = StringField(u'博客标题', validators=[DataRequired()])
     signature = TextAreaField(u'个性签名', validators=[DataRequired()])
     navbar = SelectField(u'导航样式', coerce=int, validators=[DataRequired()])
+    editor = SelectField(u'编辑器', coerce=int, validators=[DataRequired()])
 
 
 class AddBlogPluginForm(Form):

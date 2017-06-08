@@ -1,7 +1,7 @@
 {% extends 'admin/admin_base.html' %}
 
 {% block title %}
-    Blog_mini -基本信息
+    Cyngushan's Blog - 基本信息
 {% endblock %}
 
 {% block admin_content %}
@@ -19,6 +19,14 @@
                 魅力黑
             {% else %}
                 优雅白
+            {% endif %}
+        </i>
+        <h5 class="info-header"><strong>编辑器：</strong></h5>
+        <i>
+            {% if BlogInfo.query.first().editor == 'tinymce' %}
+                tinymce
+            {% else %}
+                markdown
             {% endif %}
         </i>
         <div class="add-articleType-nav">
@@ -50,6 +58,8 @@
                             {{ form.signature(class='form-control', required='') }}
                             {{ form.navbar.label }}
                             {{ form.navbar(class='form-control', required='') }}
+                            {{ form.editor.label }}
+                            {{ form.editor(class='form-control', required='') }}
                         </div>
                 </div>
                 <div class="modal-footer">
